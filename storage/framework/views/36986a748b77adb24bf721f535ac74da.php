@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
     <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
     <title><?php echo $__env->yieldContent('title', config('app.name')); ?> — Secure Portal</title>
 
     
@@ -216,9 +217,7 @@
 
 <?php if(auth()->guard()->check()): ?>
 <nav class="navbar">
-    <a href="<?php echo e(route('dashboard')); ?>" class="navbar-brand">
-        <?php echo e(config('app.name')); ?>
-
+        <a href="<?php echo e(route('dashboard')); ?>" class="navbar-brand">  <img src="<?php echo e(asset('storage/axis-logo.png')); ?>" alt="Secure" title="Secure Chat" width="" height="60">
     </a>
     <div class="navbar-nav">
         <div class="nav-user">

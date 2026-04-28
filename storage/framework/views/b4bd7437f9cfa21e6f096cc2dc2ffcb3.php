@@ -352,8 +352,13 @@ body::after{
     🔒 256-bit TLS · CBUAE Regulated · UAE Data Residency
   </div>
 </div>
-
+<?php if(session('reload')): ?>
 <script>
+    window.location.reload();
+</script>
+<?php endif; ?>
+<script>
+
 // ── Tab switcher ─────────────────────────────────────────────────────────────
 function switchTab(name) {
   ['staff','customer'].forEach(function(t) {

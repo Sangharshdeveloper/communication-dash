@@ -182,7 +182,7 @@ class MagicLinkController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login')
+        return redirect()->route('login')->with('reload', true)
             ->with('success', 'You have been logged out securely.');
     }
 

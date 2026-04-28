@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
     <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', config('app.name')) — Secure Portal</title>
 
     {{-- Prevent caching sensitive pages --}}
@@ -216,8 +217,7 @@
 
 @auth
 <nav class="navbar">
-    <a href="{{ route('dashboard') }}" class="navbar-brand">
-        {{ config('app.name') }}
+        <a href="{{ route('dashboard') }}" class="navbar-brand">  <img src="{{asset('storage/axis-logo.png') }}" alt="Secure" title="Secure Chat" width="" height="60">
     </a>
     <div class="navbar-nav">
         <div class="nav-user">
