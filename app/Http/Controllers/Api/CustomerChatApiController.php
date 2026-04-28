@@ -25,6 +25,7 @@ public function generateLink(Request $request): JsonResponse
         'email'            => ['nullable', 'email', 'max:190'],
         'name'             => ['nullable', 'string', 'max:120'],
         'bitrix_agent_id'  => ['nullable'],
+        'bitrix_contact_id'   => ['nullable'],
         'bitrix_deal_id'   => ['nullable'],
         'bitrix_deal_link' => ['nullable', 'string', 'max:520'],
     ], [
@@ -94,6 +95,7 @@ public function generateLink(Request $request): JsonResponse
                 $dirty = false;
                 if (!empty($data['name'])  && empty($customer->name))  { $customer->name  = $data['name'];  $dirty = true; }
                 if (!empty($data['email']) && empty($customer->email)) { $customer->email = $data['email']; $dirty = true; }
+                if (!empty($data['bitrix_contact_id']) && empty($customer->bitrix_contact_id)) { $customer->bitrix_contact_id = $data['bitrix_contact_id'];$dirty = true;}
                 if ($dirty) $customer->save();
 
                 return [$customer, false];
@@ -104,6 +106,7 @@ public function generateLink(Request $request): JsonResponse
                 'mobile'          => $mobile,
                 'email'           => $data['email'] ?? null,
                 'bitrix_agent_id' => $bitrixAgentId,
+                'bitrix_contact_id' => $data['bitrix_contact_id'] ?? null,
                 'role'            => 'customer',
                 'is_active'       => true,
                 'is_verified'     => false,
@@ -189,7 +192,7 @@ public function generateLink(Request $request): JsonResponse
     }
 
     $shortUrl = $baseUrl . '/short/' . $short->code;
-
+    $agentSessionUrl = $baseUrl . '/agent/session/' . $session->id;
     // ── 7. Return response ─────────────────────────────────────────────────
     return response()->json([
         'success'         => true,
@@ -205,6 +208,7 @@ public function generateLink(Request $request): JsonResponse
             'id'              => $agent->id,
             'name'            => $agent->name,
             'bitrix_agent_id' => $agent->bitrix_agent_id,
+            'agent_session_url' => $agentSessionUrl,
         ],
         'session' => [
             'token'            => $session->session_token,

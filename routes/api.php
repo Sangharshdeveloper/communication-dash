@@ -17,5 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('throttle:30,1')->group(function () {
     Route::post('/customer/chat-link', [CustomerChatApiController::class, 'generateLink'])
          ->name('api.customer.chat-link');
+    
+    Route::get('/customer/chat-link', [CustomerChatApiController::class, 'generateLink'])
+        ->name('api.customer.chat-link.get');
 
 });

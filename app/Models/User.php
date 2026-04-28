@@ -27,6 +27,7 @@ class User extends Authenticatable
         'locked_until',
         'password',
         'bitrix_agent_id',
+        'bitrix_contact_id',
     ];
 
     protected $hidden = [
