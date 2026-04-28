@@ -13,4 +13,5 @@ storage/*.p7b
 .env
 .env.*
 vendor
-
+.github
+.gitignore
