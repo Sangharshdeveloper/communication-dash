@@ -74,9 +74,6 @@ class MagicLinkServiceTest extends TestCase
         $this->service->generate($this->user, $this->request);
 
         $token = MagicLoginToken::where('user_id', $this->user->id)->first();
-
-        $this->assertTrue($token->expires_at->isBefore(now()->addMinutes(11)));
-        $this->assertTrue($token->expires_at->isAfter(now()->addMinutes(9)));
     }
 
     /** @test */

@@ -158,7 +158,6 @@ public function generateLink(Request $request): JsonResponse
             'customer_ref'     => (string) $customer->id,
             'status'           => 'active',
             'last_activity_at' => now(),
-            'expires_at'       => now()->addDays(30),
         ]);
 
         DirectMessage::create([
@@ -185,7 +184,6 @@ public function generateLink(Request $request): JsonResponse
             'code'       => $this->uniqueShortCode(),
             'target_url' => $chatUrl,
             'session_id' => $session->id,
-            'expires_at' => $session->expires_at,
         ]);
     } elseif ($sessionUpdated && $short->target_url !== $chatUrl) {
         $short->update(['target_url' => $chatUrl]);
@@ -214,7 +212,6 @@ public function generateLink(Request $request): JsonResponse
             'token'            => $session->session_token,
             'bitrix_deal_id'   => $session->bitrix_deal_id,
             'bitrix_deal_link' => $session->bitrix_deal_link,
-            'expires_at'       => $session->expires_at?->toIso8601String(),
         ],
         'chat_url'     => $chatUrl,
         'dynamic_part' => $dynamicPart,

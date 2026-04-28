@@ -72,7 +72,6 @@ class MagicLinkAuthTest extends TestCase
         MagicLoginToken::create([
             'user_id'    => $this->user->id,
             'token_hash' => $tokenHash,
-            'expires_at' => now()->addMinutes(10),
             'is_used'    => false,
             'created_ip' => '127.0.0.1',
         ]);
@@ -99,7 +98,6 @@ class MagicLinkAuthTest extends TestCase
         MagicLoginToken::create([
             'user_id'    => $this->user->id,
             'token_hash' => $tokenHash,
-            'expires_at' => now()->subMinute(),  // Already expired
             'is_used'    => false,
             'created_ip' => '127.0.0.1',
         ]);
@@ -121,7 +119,6 @@ class MagicLinkAuthTest extends TestCase
         MagicLoginToken::create([
             'user_id'    => $this->user->id,
             'token_hash' => $tokenHash,
-            'expires_at' => now()->addMinutes(10),
             'is_used'    => true,  // Already used
             'used_at'    => now()->subMinute(),
             'created_ip' => '127.0.0.1',
@@ -193,7 +190,6 @@ class MagicLinkAuthTest extends TestCase
         MagicLoginToken::create([
             'user_id'    => $this->user->id,
             'token_hash' => $tokenHash,
-            'expires_at' => now()->addMinutes(10),
             'is_used'    => false,
             'created_ip' => '127.0.0.1',
         ]);

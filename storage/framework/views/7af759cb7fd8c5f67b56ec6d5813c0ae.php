@@ -1,7 +1,6 @@
-@extends('layouts.app')
-@section('title', 'User Management')
+<?php $__env->startSection('title', 'User Management'); ?>
 
-@push('styles')
+<?php $__env->startPush('styles'); ?>
 <style>
 /* Action buttons */
 .action-btn{
@@ -198,9 +197,9 @@
 .bitrix-field { display: none; }
 .bitrix-field.visible { display: block; }
 </style>
-@endpush
+<?php $__env->stopPush(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="page-container">
 
   <div class="page-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
@@ -214,35 +213,35 @@
     </button>
   </div>
 
-  {{-- Filters --}}
+  
   <div class="card" style="margin-bottom:20px;">
     <div class="card-body">
       <form method="GET" style="display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;">
         <div style="flex:2;min-width:200px;">
           <label class="form-label">Search</label>
           <input type="text" name="search" class="form-control"
-            placeholder="Name or email..." value="{{ request('search') }}">
+            placeholder="Name or email..." value="<?php echo e(request('search')); ?>">
         </div>
         <div style="flex:1;min-width:140px;">
           <label class="form-label">Role</label>
           <select name="role" class="form-control">
             <option value="">All Roles</option>
-            @foreach (['admin','agent','auditor','customer'] as $role)
-              <option value="{{ $role }}" @selected(request('role') === $role)>{{ ucfirst($role) }}</option>
-            @endforeach
+            <?php $__currentLoopData = ['admin','agent','auditor','customer']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $role): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+              <option value="<?php echo e($role); ?>" <?php if(request('role') === $role): echo 'selected'; endif; ?>><?php echo e(ucfirst($role)); ?></option>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
           </select>
         </div>
         <div>
           <button type="submit" class="btn btn-primary">Search</button>
-          <a href="{{ route('admin.users') }}" class="btn btn-outline" style="margin-left:8px;">Clear</a>
+          <a href="<?php echo e(route('admin.users')); ?>" class="btn btn-outline" style="margin-left:8px;">Clear</a>
         </div>
       </form>
     </div>
   </div>
 
-  {{-- Users table --}}
+  
   <div class="card">
-    <div class="card-header">{{ $users->total() }} users</div>
+    <div class="card-header"><?php echo e($users->total()); ?> users</div>
     <div class="table-container">
       <table>
         <thead>
@@ -256,74 +255,72 @@
           </tr>
         </thead>
         <tbody>
-          @forelse($users as $user)
+          <?php $__empty_1 = true; $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
           <tr>
             <td>
-              <div style="font-weight:500">{{ $user->name }}</div>
-              <div class="text-muted text-sm">{{ $user->email }}</div>
+              <div style="font-weight:500"><?php echo e($user->name); ?></div>
+              <div class="text-muted text-sm"><?php echo e($user->email); ?></div>
             </td>
             <td>
               <span class="badge
-                @if($user->role==='admin') badge-danger
-                @elseif($user->role==='agent') badge-info
-                @elseif($user->role==='auditor') badge-warning
-                @else badge-gray @endif">
-                {{ ucfirst($user->role) }}
+                <?php if($user->role==='admin'): ?> badge-danger
+                <?php elseif($user->role==='agent'): ?> badge-info
+                <?php elseif($user->role==='auditor'): ?> badge-warning
+                <?php else: ?> badge-gray <?php endif; ?>">
+                <?php echo e(ucfirst($user->role)); ?>
+
               </span>
             </td>
             <td>
-              @if($user->is_active)
+              <?php if($user->is_active): ?>
                 <span class="badge badge-success">Active</span>
-              @else
+              <?php else: ?>
                 <span class="badge badge-danger">Inactive</span>
-              @endif
+              <?php endif; ?>
             </td>
             <td class="text-sm text-muted">
-              {{ $user->last_login_at?->setTimezone('Asia/Dubai')->format('d M Y H:i') ?? '—' }}
+              <?php echo e($user->last_login_at?->setTimezone('Asia/Dubai')->format('d M Y H:i') ?? '—'); ?>
+
             </td>
-            <td class="text-sm text-muted">{{ $user->created_at->format('d M Y') }}</td>
+            <td class="text-sm text-muted"><?php echo e($user->created_at->format('d M Y')); ?></td>
             <td>
               <div class="actions-cell">
-                <button class="action-btn btn-gray" onclick="openUserModal({{ $user->id }})" title="Edit">✎ Edit</button>
+                <button class="action-btn btn-gray" onclick="openUserModal(<?php echo e($user->id); ?>)" title="Edit">✎ Edit</button>
 
-                @if($user->role === 'customer')
-                  <button class="action-btn btn-blue" onclick="openMagicLinkModal({{ $user->id }}, '{{ addslashes($user->name) }}', '{{ $user->email }}')" title="Send login link">
+                <?php if($user->role === 'customer'): ?>
+                  <button class="action-btn btn-blue" onclick="openMagicLinkModal(<?php echo e($user->id); ?>, '<?php echo e(addslashes($user->name)); ?>', '<?php echo e($user->email); ?>')" title="Send login link">
                     🔗 Login Link
                   </button>
-                  <button class="action-btn btn-green" onclick="openChatLinkModal({{ $user->id }}, '{{ addslashes($user->name) }}', '{{ $user->email }}')" title="Send chat link">
+                  <button class="action-btn btn-green" onclick="openChatLinkModal(<?php echo e($user->id); ?>, '<?php echo e(addslashes($user->name)); ?>', '<?php echo e($user->email); ?>')" title="Send chat link">
                     💬 Chat Link
                   </button>
-                @elseif($user->role === 'agent')
-                  <button class="action-btn btn-blue" onclick="openAgentSessionsModal({{ $user->id }}, '{{ addslashes($user->name) }}')">
+                <?php elseif($user->role === 'agent'): ?>
+                  <button class="action-btn btn-blue" onclick="openAgentSessionsModal(<?php echo e($user->id); ?>, '<?php echo e(addslashes($user->name)); ?>')">
                     💬 View Chats
                   </button>
-                @endif
+                <?php endif; ?>
 
-                @if($user->id !== auth()->id())
-                <button class="action-btn btn-red" onclick="confirmDelete({{ $user->id }}, '{{ addslashes($user->name) }}')" title="Delete">🗑</button>
-                @endif
+                <?php if($user->id !== auth()->id()): ?>
+                <button class="action-btn btn-red" onclick="confirmDelete(<?php echo e($user->id); ?>, '<?php echo e(addslashes($user->name)); ?>')" title="Delete">🗑</button>
+                <?php endif; ?>
               </div>
             </td>
           </tr>
-          @empty
+          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
           <tr>
             <td colspan="6" style="text-align:center;padding:40px;color:#9ca3af;">
               No users found. Click "Add New User" to get started.
             </td>
           </tr>
-          @endforelse
+          <?php endif; ?>
         </tbody>
       </table>
     </div>
   </div>
 </div>
 
-{{-- ══════════════════════════════════════════════════════════════
-     MODAL 1: Create / Edit User
-══════════════════════════════════════════════════════════════ --}}
-{{-- ══════════════════════════════════════════════════════════════
-     MODAL 1: Create / Edit User
-══════════════════════════════════════════════════════════════ --}}
+
+
 <div class="modal-backdrop" id="user-modal" onclick="closeModal('user-modal')">
   <div class="modal" onclick="event.stopPropagation()">
     <div class="modal-header">
@@ -334,7 +331,7 @@
       <form id="user-form" onsubmit="event.preventDefault(); submitUserForm();">
         <input type="hidden" id="user-id">
 
-        {{-- ── Basic Info ── --}}
+        
         <p class="section-label">Basic Information</p>
 
         <div class="fg-row">
@@ -374,7 +371,7 @@
           </div>
         </div>
 
-        {{-- ── Bitrix Agent ID (agent only) ── --}}
+        
         <div class="fg bitrix-field" id="bitrix-field-wrap">
           <hr class="field-divider">
           <p class="section-label">Agent Settings</p>
@@ -383,7 +380,7 @@
           <div class="hint">Used to link this agent to their Bitrix24 profile.</div>
         </div>
 
-        {{-- ── Password Section ── --}}
+        
         <div id="password-section" style="display:none">
           <hr class="field-divider">
           <p class="section-label" id="pwd-section-label">Set Password</p>
@@ -433,9 +430,7 @@
   </div>
 </div>
 
-{{-- ══════════════════════════════════════════════════════════════
-     MODAL 2: Send Magic Login Link
-══════════════════════════════════════════════════════════════ --}}
+
 <div class="modal-backdrop" id="magic-link-modal" onclick="closeModal('magic-link-modal')">
   <div class="modal" onclick="event.stopPropagation()">
     <div class="modal-header">
@@ -448,7 +443,7 @@
 
       <div class="alert-info" style="margin-top:14px">
         📧 A secure one-time login link will be emailed to this customer.
-        The link expires in {{ config('magic_link.expiry_minutes', 10) }} minutes.
+        The link expires in <?php echo e(config('magic_link.expiry_minutes', 10)); ?> minutes.
       </div>
 
       <div id="ml-result" style="display:none"></div>
@@ -462,9 +457,7 @@
   </div>
 </div>
 
-{{-- ══════════════════════════════════════════════════════════════
-     MODAL 3: Send Chat Link (customer → agent)
-══════════════════════════════════════════════════════════════ --}}
+
 <div class="modal-backdrop" id="chat-link-modal" onclick="closeModal('chat-link-modal')">
   <div class="modal" onclick="event.stopPropagation()">
     <div class="modal-header">
@@ -479,9 +472,9 @@
         <label>Assign to Agent *</label>
         <select id="cl-agent-select" onchange="refreshChatLinkPreview()">
           <option value="">— Select an agent —</option>
-          @foreach($allAgents as $agent)
-            <option value="{{ $agent->id }}">{{ $agent->name }}</option>
-          @endforeach
+          <?php $__currentLoopData = $allAgents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $agent): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <option value="<?php echo e($agent->id); ?>"><?php echo e($agent->name); ?></option>
+          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </select>
       </div>
 
@@ -506,9 +499,7 @@
   </div>
 </div>
 
-{{-- ══════════════════════════════════════════════════════════════
-     MODAL 4: Agent's Chat Sessions
-══════════════════════════════════════════════════════════════ --}}
+
 <div class="modal-backdrop" id="sessions-modal" onclick="closeModal('sessions-modal')">
   <div class="modal" onclick="event.stopPropagation()">
     <div class="modal-header">
@@ -529,9 +520,7 @@
   </div>
 </div>
 
-{{-- ══════════════════════════════════════════════════════════════
-     MODAL 5: Delete Confirmation
-══════════════════════════════════════════════════════════════ --}}
+
 <div class="modal-backdrop" id="delete-modal" onclick="closeModal('delete-modal')">
   <div class="modal" style="max-width:420px" onclick="event.stopPropagation()">
     <div class="modal-header">
@@ -556,15 +545,15 @@
 </div>
 
 <div id="app-toast"></div>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@push('scripts')
+<?php $__env->startPush('scripts'); ?>
 <script>
-const CSRF = '{{ csrf_token() }}';
+const CSRF = '<?php echo e(csrf_token()); ?>';
 const URLS = {
-  users:        '{{ route("admin.users.store") }}',        // POST create
+  users:        '<?php echo e(route("admin.users.store")); ?>',        // POST create
   user:         '/admin/users',                            // /{id} PUT/DELETE/GET
-  chatLink:     '{{ route("admin.users.chat-link") }}',
+  chatLink:     '<?php echo e(route("admin.users.chat-link")); ?>',
   sendMagic:    (id) => `/admin/users/${id}/send-magic-link`,
   sendChat:     (id) => `/admin/users/${id}/send-chat-link`,
   agentSess:    (id) => `/admin/users/${id}/agent-sessions`,
@@ -1026,4 +1015,5 @@ function esc(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 </script>
-@endpush
+<?php $__env->stopPush(); ?>
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH /Users/sangharshsulke/Axis Data/communication-dash/resources/views/admin/users.blade.php ENDPATH**/ ?>

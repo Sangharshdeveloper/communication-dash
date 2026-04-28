@@ -77,7 +77,6 @@ class DirectChatController extends Controller
             'customer_ref'     => $customerRef,
             'status'           => 'active',
             'last_activity_at' => now(),
-            'expires_at'       => now()->addDays(30),
         ]);
 
         DirectMessage::create([
@@ -354,50 +353,7 @@ public function history(Request $request): JsonResponse
         return view('chat.agent-inbox', compact('sessions'));
     }
 
-    // ──────────────────────────────────────────────────────────────────────────
-    //  AGENT SESSION VIEW — opens one conversation
-    //  Route: GET /agent/session/{session}
-    //  Uses the same "latest N + infinite scroll up" pattern as the customer view.
-    // ──────────────────────────────────────────────────────────────────────────
-//     public function agentSession(DirectChatSession $session): View
-//     {
-//         abort_unless($session->agent_id === auth()->id(), 403);
 
-//         $session->load(['customer', 'agent']);
-//         $agent = $session->agent;
-
-//         // Mark customer messages as read (agent is now viewing)
-//         $session->messages()
-//             ->where('sender_id', $session->customer_id)
-//             ->where('is_read', false)
-//             ->update(['is_read' => true, 'read_at' => now()]);
-
-//         $totalCount = $session->messages()->count();
-
-//         $latest = $session->messages()
-//             ->with(['sender', 'attachments'])
-//             ->latest('id')
-//             ->limit(self::INITIAL_PAGE_SIZE)
-//             ->get()
-//             ->sortBy('id')
-//             ->values();
-
-//         // Viewer is the agent — so "mine" = messages sent by this agent
-//         $messages = $this->formatMessages($latest, $session->agent_id);
-
-//         $oldestLoadedId = $latest->isNotEmpty() ? $latest->first()->id : null;
-//         $hasMoreHistory = $totalCount > $latest->count();
-//         $customerRef    = $session->customer_ref;
-
-// $allSessions = DirectChatSession::where('agent_id', auth()->id())
-//     ->with(['customer', 'lastMsg'])
-//     ->orderByDesc('last_activity_at')
-//     ->get();
-//         return view('chat.agent-session', compact(
-//             'session', 'agent', 'messages', 'customerRef',
-//             'oldestLoadedId', 'hasMoreHistory', 'totalCount','allSessions'
-//         ));
-//     }
 
     public function agentSession(DirectChatSession $session): View
     {
@@ -405,7 +361,7 @@ public function history(Request $request): JsonResponse
     
         $session->load(['customer', 'agent']);
         $agent = $session->agent;
-    
+
         // Mark customer messages as read (agent is now viewing)
         $session->messages()
             ->where('sender_id', $session->customer_id)

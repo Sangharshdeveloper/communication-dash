@@ -189,7 +189,6 @@ Edit `config/magic_link.php` or set these in `.env`:
 |---|---|---|
 | `user_id` | FK | References `users.id` |
 | `token_hash` | varchar(64) | **SHA-256 only — never raw token** |
-| `expires_at` | timestamp | 10 min from creation |
 | `is_used` | boolean | One-time use flag |
 | `used_at` | timestamp | When consumed |
 | `created_ip` | varchar(45) | Requesting IP (IPv4/IPv6) |

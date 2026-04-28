@@ -41,7 +41,6 @@ class MagicLinkService
         $token = MagicLoginToken::create([
             'user_id'            => $user->id,
             'token_hash'         => $tokenHash,
-            'expires_at'         => now()->addMinutes($expiryMinutes),
             'is_used'            => false,
             'created_ip'         => $request->ip(),
             'created_user_agent' => $request->userAgent(),
@@ -60,7 +59,7 @@ class MagicLinkService
             request:     $request,
             user:        $user,
             description: "Magic link generated for {$user->email}",
-            metadata:    ['token_id' => $token->id, 'expires_at' => $token->expires_at]
+            metadata:    ['token_id' => $token->id]
         );
 
         return $url;
@@ -129,7 +128,7 @@ class MagicLinkService
                 user:        $user,
                 status:      AuditLog::STATUS_FAILURE,
                 description: 'Magic link token has expired',
-                metadata:    ['token_id' => $tokenRecord->id, 'expired_at' => $tokenRecord->expires_at]
+                metadata:    ['token_id' => $tokenRecord->id]
             );
             return null;
         }

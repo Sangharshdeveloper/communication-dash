@@ -152,11 +152,6 @@
                 @endif
               </div>
               <div class="sess-footer">
-                @if($session->customer_ref)
-                  <span class="sess-cid">{{ $session->customer_ref }}</span>
-                @else
-                  <span></span>
-                @endif
                 @if($session->unread_count > 0)
                   <span class="unread-dot">{{ $session->unread_count > 9 ? '9+' : $session->unread_count }}</span>
                 @endif

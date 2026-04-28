@@ -17,10 +17,6 @@ class ShortUrlController extends Controller
     {
         $short = ShortUrl::where('code', $code)->firstOrFail();
 
-        if ($short->expires_at && $short->expires_at->isPast()) {
-            abort(410, 'This link has expired.');
-        }
-
         return redirect($short->target_url);
     }
 }

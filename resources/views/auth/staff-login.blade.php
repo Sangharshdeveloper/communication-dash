@@ -43,7 +43,8 @@ body::after{
 .card-top{height:4px;background:linear-gradient(90deg,#c4a366,#d6b77a,#a8894f);}
 .card-body{padding:36px 36px 32px}
 
-.logo-wrap{display:flex;align-items:center;gap:12px;margin-bottom:28px}
+.logo-wrap{
+  justify-content: center;display:flex;align-items:center;gap:12px;margin-bottom:28px}
 .logo-icon{
   width:48px;height:48px;border-radius:12px;
   background:linear-gradient(135deg,#c4a366,#d6b77a);
@@ -198,11 +199,7 @@ body::after{
   <div class="card-body">
 
     <div class="logo-wrap">
-      <div class="logo-icon"></div>
-      <div class="logo-text">
-        <h1>Axis Communication</h1>
-        <p>Secure Portal</p>
-      </div>
+          <img src="{{asset('storage/axis-logo.png') }}" alt="Secure" title="Secure Chat" width="" height="70">
     </div>
 
     <div class="tabs">

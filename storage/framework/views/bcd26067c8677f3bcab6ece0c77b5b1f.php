@@ -1,14 +1,13 @@
-@extends('layouts.app')
-@section('title', 'Chat with ' . $agent->name)
+<?php $__env->startSection('title', 'Chat with ' . $agent->name); ?>
 
-@push('head')
-<meta name="csrf-token" content="{{ csrf_token() }}">
+<?php $__env->startPush('head'); ?>
+<meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-@endpush
+<?php $__env->stopPush(); ?>
 
-@push('styles')
+<?php $__env->startPush('styles'); ?>
 <style>
 :root {
   --brand:         #c4a366;
@@ -595,27 +594,27 @@ input[type="file"] { display: none; }
 .msg.mine:not(:has(+ .msg.mine)) .bubble::after  { display: block; }
 .msg.theirs:not(:has(+ .msg.theirs)) .bubble::after { display: block; }
 </style>
-@endpush
+<?php $__env->stopPush(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="chat-shell">
   <div class="chat-main">
 
-    {{-- Header --}}
+    
     <header class="chat-hdr">
-      <div class="hdr-av">{{ strtoupper(substr($agent->name, 0, 1)) }}</div>
+      <div class="hdr-av"><?php echo e(strtoupper(substr($agent->name, 0, 1))); ?></div>
       <div class="hdr-info">
-        <div class="hdr-name">{{ $agent->name }}</div>
+        <div class="hdr-name"><?php echo e($agent->name); ?></div>
         <div class="hdr-status">
           <span class="status-dot"></span>
           <span>Online</span>
         </div>
       </div>
-      <img src="{{asset('storage/axis-logo.png') }}" alt="Secure" title="Secure Chat" width="" height="40">
-      {{-- <div class="hdr-badge">🔒 Secure Chat</div> --}}
+      <img src="<?php echo e(asset('storage/axis-logo.png')); ?>" alt="Secure" title="Secure Chat" width="" height="40">
+      
     </header>
 
-    {{-- Messages --}}
+    
     <div class="chat-messages" id="messages">
       <div class="history-loader hidden" id="history-loader">
         <span class="spin"></span>
@@ -625,25 +624,26 @@ input[type="file"] { display: none; }
         — Beginning of conversation —
       </div>
 
-      @php $lastDate = null; @endphp
-      @foreach($messages as $m)
-        @if($m['date'] !== $lastDate)
+      <?php $lastDate = null; ?>
+      <?php $__currentLoopData = $messages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $m): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+        <?php if($m['date'] !== $lastDate): ?>
           <div class="date-sep">
-            {{ \Carbon\Carbon::parse($m['date'])->format('D, M j, Y') }}
+            <?php echo e(\Carbon\Carbon::parse($m['date'])->format('D, M j, Y')); ?>
+
           </div>
-          @php $lastDate = $m['date']; @endphp
-        @endif
-        @include('chat.partials.message', ['m' => $m])
-      @endforeach
+          <?php $lastDate = $m['date']; ?>
+        <?php endif; ?>
+        <?php echo $__env->make('chat.partials.message', ['m' => $m], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
+      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     </div>
 
-    {{-- Scroll FAB --}}
+    
     <button class="scroll-fab" id="scroll-fab" type="button" aria-label="Scroll to latest">
       ↓
       <span class="unread-badge" id="unread-count" style="display:none">0</span>
     </button>
 
-    {{-- Composer --}}
+    
     <div class="composer-wrap">
       <div class="att-preview" id="att-preview"></div>
       <div class="composer">
@@ -660,31 +660,31 @@ input[type="file"] { display: none; }
       </div>
     </div>
 
-  </div>{{-- /.chat-main --}}
-</div>{{-- /.chat-shell --}}
+  </div>
+</div>
 
 <div class="toast" id="toast" role="alert" aria-live="assertive"></div>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@push('scripts')
+<?php $__env->startPush('scripts'); ?>
 <script>
 
 (function () {
   'use strict';
 
   // ── State ────────────────────────────────────────────────────────────
-  const SESSION_TOKEN = @json($session->session_token);
+  const SESSION_TOKEN = <?php echo json_encode($session->session_token, 15, 512) ?>;
   const ROUTES = {
-    send:    @json(route('direct-chat.send')),
-    poll:    @json(route('direct-chat.poll')),
-    history: @json(route('direct-chat.history')),
+    send:    <?php echo json_encode(route('direct-chat.send'), 15, 512) ?>,
+    poll:    <?php echo json_encode(route('direct-chat.poll'), 15, 512) ?>,
+    history: <?php echo json_encode(route('direct-chat.history'), 15, 512) ?>,
   };
-  const CSRF = @json(csrf_token());
+  const CSRF = <?php echo json_encode(csrf_token(), 15, 512) ?>;
  
 
-  let oldestLoadedId   = @json($oldestLoadedId ?? null);
-  let hasMoreHistory   = @json($hasMoreHistory ?? false);
-  let lastMessageId    = {{ !empty($messages) ? max(array_column($messages, 'id')) : 0 }};
+  let oldestLoadedId   = <?php echo json_encode($oldestLoadedId ?? null, 15, 512) ?>;
+  let hasMoreHistory   = <?php echo json_encode($hasMoreHistory ?? false, 15, 512) ?>;
+  let lastMessageId    = <?php echo e(!empty($messages) ? max(array_column($messages, 'id')) : 0); ?>;
   let isLoadingHistory = false;
   let unreadCount      = 0;
   let isNearBottom     = true;
@@ -1023,4 +1023,5 @@ function buildMessageEl(m) {
   }
 })();
 </script>
-@endpush
+<?php $__env->stopPush(); ?>
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH /Users/sangharshsulke/Axis Data/communication-dash/resources/views/chat/direct.blade.php ENDPATH**/ ?>

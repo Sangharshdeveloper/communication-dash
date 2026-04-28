@@ -153,11 +153,6 @@
                 <?php endif; ?>
               </div>
               <div class="sess-footer">
-                <?php if($session->customer_ref): ?>
-                  <span class="sess-cid"><?php echo e($session->customer_ref); ?></span>
-                <?php else: ?>
-                  <span></span>
-                <?php endif; ?>
                 <?php if($session->unread_count > 0): ?>
                   <span class="unread-dot"><?php echo e($session->unread_count > 9 ? '9+' : $session->unread_count); ?></span>
                 <?php endif; ?>

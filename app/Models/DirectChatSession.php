@@ -19,7 +19,6 @@ class DirectChatSession extends Model
     {
         return [
             'last_activity_at' => 'datetime',
-            'expires_at'       => 'datetime',
         ];
     }
 

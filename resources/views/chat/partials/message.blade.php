@@ -5,10 +5,7 @@
 <div class="msg {{ $sideClass }}" id="m-{{ $m['id'] }}" data-id="{{ $m['id'] }}" data-date="{{ $m['date'] }}">
 
   {{-- Sender name label (only on incoming messages, not system) --}}
-  @if($sideClass === 'theirs' && isset($m['sender_name']))
-    <div class="msg-sender-label">{{ $m['sender_name'] }}@if($isAgent) · Agent @endif</div>
-  @endif
-
+  
   <div class="bubble">
     @if(!empty($m['body']))
       {!! nl2br(e($m['body'])) !!}

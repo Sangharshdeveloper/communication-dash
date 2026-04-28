@@ -19,7 +19,7 @@ Route::prefix('api')->name('api.')->group(function () {
 // ── Guest auth routes ──────────────────────────────────────────────────────
 Route::middleware('guest')->group(function () {
     Route::get('/login', [StaffLoginController::class, 'showForm'])->name('login');
-    Route::post('/staff/login', [StaffLoginController::class, 'login'])->name('staff.login');
+    Route::post('/login', [StaffLoginController::class, 'login'])->name('staff.login');
     Route::post('/auth/magic-link', [MagicLinkController::class, 'requestLink'])->name('auth.magic.request');
     Route::get('/auth/magic-link/verify', [MagicLinkController::class, 'verifyLink'])
         ->name('auth.magic.verify')->middleware('signed');

@@ -13,8 +13,7 @@ class PurgeExpiredTokens extends Command
     public function handle(): int
     {
         $query = MagicLoginToken::where(function ($q) {
-            $q->where('expires_at', '<', now()->subDay())  // Expired > 24h ago
-              ->orWhere(function ($q2) {
+            $q->where(function ($q2) {
                   $q2->where('is_used', true)
                      ->where('used_at', '<', now()->subDay()); // Used > 24h ago
               });
