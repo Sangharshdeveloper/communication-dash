@@ -1,0 +1,53 @@
+APP_NAME="Axis Communication Platform"
+APP_ENV=local
+APP_KEY=
+APP_DEBUG=true
+APP_URL=http://localhost:8001
+
+# Disable HTTPS locally
+FORCE_HTTPS=false
+
+# Timezone - UAE
+APP_TIMEZONE=Asia/Dubai
+APP_LOCALE=en
+
+LOG_CHANNEL=stack
+LOG_DEPRECATIONS_CHANNEL=null
+LOG_LEVEL=debug
+
+# Database
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=cbuae_insurance
+DB_USERNAME=root
+DB_PASSWORD=
+
+# Session - Use file driver locally (no Redis needed)
+SESSION_DRIVER=file
+SESSION_LIFETIME=30
+SESSION_ENCRYPT=false
+SESSION_SECURE_COOKIE=false
+SESSION_SAME_SITE=lax
+
+# Cache - Use file driver locally (no Redis needed)
+CACHE_STORE=file
+
+# Queue - Use sync locally
+QUEUE_CONNECTION=sync
+
+# Mail - Use log driver locally (emails go to storage/logs/laravel.log)
+MAIL_MAILER=log
+MAIL_FROM_ADDRESS=noreply@localhost.ae
+MAIL_FROM_NAME="${APP_NAME}"
+
+# Magic Link Settings
+MAGIC_LINK_EXPIRY_MINUTES=10
+MAGIC_LINK_RATE_LIMIT=5
+MAGIC_LINK_RATE_LIMIT_DECAY=60
+
+# Security
+INACTIVITY_TIMEOUT_MINUTES=15
+
+# Audit logging
+AUDIT_LOG_CHANNEL=audit

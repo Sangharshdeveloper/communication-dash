@@ -1,0 +1,16 @@
+bootstarp
+.idea
+node_modules
+public/storage
+storage/*.key
+storage/*.crt
+storage/*.csr
+storage/*.pem
+storage/*.pfx
+storage/*.p12
+storage/*.jks
+storage/*.p7b
+.env
+.env.*
+vendor
+

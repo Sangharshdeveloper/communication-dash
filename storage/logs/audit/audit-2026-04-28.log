@@ -1,0 +1,3 @@
+[2026-04-28 09:18:34] development.INFO: login_failed {"audit_id":190,"user_id":18,"email":"sangharsh.sulke@axisinsurance.ae","status":"failure","ip":"127.0.0.1","description":"Staff login failed: wrong password (attempt 1)","metadata":[]} 
+[2026-04-28 09:18:42] development.INFO: login_failed {"audit_id":191,"user_id":18,"email":"sangharsh.sulke@axisinsurance.ae","status":"failure","ip":"127.0.0.1","description":"Staff login failed: wrong password (attempt 2)","metadata":[]} 
+[2026-04-28 09:18:53] development.INFO: login_success {"audit_id":192,"user_id":18,"email":"sangharsh.sulke@axisinsurance.ae","status":"success","ip":"127.0.0.1","description":"Staff login successful for sangharsh.sulke@axisinsurance.ae (role: agent)","metadata":[]} 
